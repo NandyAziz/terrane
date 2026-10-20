@@ -1,0 +1,288 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TERRANE — design tokens
+   A warm, editorial palette: bone paper, espresso ink, clay accent.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --bone: #f3eee4;
+  --bone-soft: #faf6ee;
+  --bone-deep: #e9dfd0;
+  --sand: #d9cbb7;
+  --espresso: #19140f;
+  --umber: #382d23;
+  --muted: #645a4e;
+  --clay: #b05a34;
+  --clay-light: #d4864f;
+  --clay-ink: #7d3517;
+  --clay-deep: #843d20;
+  --sage: #6b6f5a;
+  --line: rgb(25 20 15 / 0.16);
+  --line-soft: rgb(25 20 15 / 0.09);
+  --line-dark: rgb(243 238 228 / 0.2);
+  --line-dark-soft: rgb(243 238 228 / 0.11);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-bone: var(--bone);
+  --color-bone-soft: var(--bone-soft);
+  --color-bone-deep: var(--bone-deep);
+  --color-sand: var(--sand);
+  --color-espresso: var(--espresso);
+  --color-umber: var(--umber);
+  --color-muted: var(--muted);
+  --color-clay: var(--clay);
+  --color-clay-light: var(--clay-light);
+  --color-clay-ink: var(--clay-ink);
+  --color-clay-deep: var(--clay-deep);
+  --color-sage: var(--sage);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-line-dark: var(--line-dark);
+  --color-line-dark-soft: var(--line-dark-soft);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Base
+   ───────────────────────────────────────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100%;
+  background: var(--bone);
+  color: var(--espresso);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--espresso);
+  color: var(--bone);
+}
+
+:where(a, button, [role="button"], summary, input, select, textarea):focus-visible {
+  outline: 2px solid var(--clay-ink);
+  outline-offset: 4px;
+}
+
+.on-dark :where(a, button, [role="button"]):focus-visible {
+  outline-color: var(--bone);
+}
+
+.on-dark ::selection {
+  background: var(--bone);
+  color: var(--espresso);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Utility so `ease-out-expo` classes resolve without a Tailwind theme var. */
+.ease-out-expo {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* A little paper grain over the whole page. */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Typography helpers
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.display {
+  font-family: var(--font-fraunces), "Times New Roman", Georgia, serif;
+  font-weight: 300;
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 22, "WONK" 0;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.display-italic {
+  font-style: italic;
+  font-variation-settings: "SOFT" 60, "WONK" 1;
+}
+
+.eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  font-weight: 450;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.body-copy {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Layout helpers
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.shell {
+  width: 100%;
+  max-width: 1560px;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4.2vw, 4.5rem);
+}
+
+.rule {
+  border-top: 1px solid var(--line);
+}
+
+.rule-dark {
+  border-top: 1px solid var(--line-dark);
+}
+
+/* Hides the scrollbar on the filter rail if it ever overflows. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Motion
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 52s linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleY(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.scroll-cue-line {
+  transform-origin: top;
+  animation: soft-pulse 2.6s var(--ease-out-expo) infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Native dialogs (mobile menu, product sheet, WhatsApp demo)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+dialog {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--espresso);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  background: rgb(20 16 11 / 0.7);
+  backdrop-filter: blur(8px);
+}
+
+.dialog-panel {
+  animation: dialog-in 0.55s var(--ease-out-expo) both;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-track,
+  .scroll-cue-line {
+    animation: none !important;
+  }
+
+  .dialog-panel {
+    animation: none;
+  }
+
+  [data-hero-media] {
+    clip-path: none !important;
+  }
+
+  [data-hero-parallax],
+  [data-parallax-image] {
+    transform: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}
